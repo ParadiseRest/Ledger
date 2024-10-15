@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ledger App</title>
+    <style>
+        table, th, td {
+            border: 1px solid white;
+        }
+
+        body {
+            background-color: lightblue;
+            color: black;
+        }
+
+        table {
+          table-layout: fixed ;
+          width: 100% ;
+        }
+        td {
+          width: 25% ;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Ledger</h1>
+<h3>Input</h3>
+
+
+<form method="POST" class="transactionForm">
+    {% csrf_token %}
+    {{ form }}
+    <br>
+    <input type="submit">
+</form>
+<br>
+<br>
+
+{% load custom_tags %}
+
+{% for record in records %}
+    <table>
+        <caption>{{ record }}</caption>
+        <thead>
+            <th>Description</th>
+            <th>Credit</th>
+            <th>Description</th>
+            <th>Debit</th>
+        </thead>
+        <tbody>
+        {% get_item records record as tests %}
+        {% for test in tests %}
+            <tr>
+                <td>{{ test.0 }}</td>
+                <td>{{ test.1 }}</td>
+                <td>{{ test.2 }}</td>
+                <td>{{ test.3 }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <br>
+{% endfor %}
+
+
+{% if visibility %}
+<table>
+    <thead>
+    <th>Description</th>
+    <th>Credit</th>
+    <th>Debit</th>
+    </thead>
+    <tbody>
+    {% for bal in balstate %}
+        <tr>
+            <td>{{ bal.0 }}</td>
+            <td>{{ bal.1 }}</td>
+            <td>{{ bal.2 }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+
+<form action='printme' method='GET'>
+    <button type='submit'>Print</button>
+</form>
+{% endif  %}
+
+</body>
+</html>
